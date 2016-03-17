@@ -14,14 +14,14 @@ public class DepoFile {
     private final String time;
     private final Date datetime = null;
 
-    private String dealId;
-    private String refNum;
-    private String codeTo;
-    private boolean isConverted;
-    private boolean isSentAccordingToEtrDir;
-    private String sentTimeAccordingToEtrDir;
-    private String responseFile = null;
-    private String responseTime = null;
+    private String dealId = "";
+    private String refNum = "";
+    private String codeTo = "";
+    private boolean isConverted = false;
+    private boolean isSentAccordingToEtrDir=false;
+    private String sentTimeAccordingToEtrDir="";
+    private String responseFile = "";
+    private String responseTime = "";
 
     public DepoFile(String filename, String date, String time) {
         this.filename = filename;
