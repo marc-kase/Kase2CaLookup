@@ -4,6 +4,7 @@ package kz.kase.lookup;
 import kz.kase.lookup.domain.DepoFile;
 import kz.kase.lookup.util.LinuxCommand;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,10 +65,13 @@ public class Kase2CA {
         final String converterFile = "";
         final String etrOutDir = "";
         final String etrInDir = "";
+        final String exportFile = "";
 
         Kase2CA app = new Kase2CA();
 
         List<DepoFile> depoFileList = app.getDepoFiles("");
+
+        FileWriter writer = new FileWriter(exportFile);
 
         for (DepoFile file : depoFileList) {
             file.setCodeTo(app.getFileContent(depoDir + "/" + file.getFilename(), ":20:"));
@@ -89,7 +93,11 @@ public class Kase2CA {
 
             System.out.println(file.toString());
             System.out.println("---------------------------------------------------------");
+
+            writer.write(file.toString() + "\n---------------------------------------------------\n");
         }
+
+        writer.close();
 
     }
 }
