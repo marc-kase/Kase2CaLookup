@@ -81,8 +81,11 @@ public class Kase2CA {
                 file.setIsSentAccordingToEtrDir(true);
                 file.setSentTimeAccordingToEtrDir(sentTimeFilesystem);
             }
-            file.setResponseFile(app.getFilenameByPattern(etrInDir + "/" + file.getFilename(), ":21:" + file.getCodeTo()));
-            file.setResponseTime(app.getFileModificationTime(etrInDir, file.getFilename()));
+
+            String respFile = app.getFilenameByPattern(etrInDir + "/" + file.getFilename(), ":21:" + file.getCodeTo());
+            file.setResponseFile(respFile);
+            if (!respFile.isEmpty())
+                file.setResponseTime(app.getFileModificationTime(etrInDir, file.getFilename()));
 
             System.out.println(file.toString());
             System.out.println("---------------------------------------------------------");
