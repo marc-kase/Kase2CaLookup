@@ -93,7 +93,6 @@ public class Kase2CA {
 
             System.out.println(file.toString());
             System.out.println("---------------------------------------------------------");
-
             writer.write(file.toString() + "\n---------------------------------------------------\n");
         }
 
