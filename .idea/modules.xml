@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Kase2CaLookup.iml" filepath="$PROJECT_DIR$/Kase2CaLookup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ca2KaseLookup/Ca2KaseLookup.iml" filepath="$PROJECT_DIR$/Ca2KaseLookup/Ca2KaseLookup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Kase2CaLookup/Kase2CaLookup.iml" filepath="$PROJECT_DIR$/Kase2CaLookup/Kase2CaLookup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KaseCaLookup.iml" filepath="$PROJECT_DIR$/KaseCaLookup.iml" />
     </modules>
   </component>
 </project>
