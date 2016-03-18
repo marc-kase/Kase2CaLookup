@@ -102,7 +102,7 @@ public class Ca2Kase {
         final String contrAgent = props.getProperty(CA_LOGIN);
         final String date = props.getProperty(DATE);
 
-        System.out.println("Started");
+//        System.out.println("Started");
 
         String etrOutDirOnDay = etrOutDir + "/" + date + "/" + contrAgent;
         String etrInDirOnDay = etrInDir + "/" + date + "/" + contrAgent;
@@ -140,6 +140,6 @@ public class Ca2Kase {
 
         writer.close();
 
-        System.out.println("Stopped");
+//        System.out.println("Stopped");
     }
 }
