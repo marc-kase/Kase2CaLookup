@@ -29,7 +29,7 @@ public class Ca2Kase {
     public static final String CA_LOGIN = "ca.login";
     public static final String DATE = "date";
 
-    public List<DepoFile> getFilesList(String directory) throws IOException {
+    public List<DepoFile> getFilesList(String directory, String daycut) throws IOException {
         String filesList = LinuxCommand
                 .run("ls -l --time-style=+'%Y-%m-%d %H:%M:%S' " + directory
                         + "| grep -i '' | rev | cut -d ' ' -f1-3 | rev", "\n");
@@ -41,7 +41,8 @@ public class Ca2Kase {
         String[] fline;
         for (int i = 1; i < fs.length; i++) {
             fline = fs[i].split(" ");
-            depoFiles.add(new DepoFile(fline[2], fline[0], fline[1]));
+            if (daycut.equals(fline[0])) depoFiles.add(new DepoFile(fline[2], fline[0], fline[1]));
+            else System.out.println("Ignored: " + fline[2]);
         }
         return depoFiles;
     }
@@ -102,14 +103,14 @@ public class Ca2Kase {
         final String contrAgent = props.getProperty(CA_LOGIN);
         final String date = props.getProperty(DATE);
 
-//        System.out.println("Started");
+        System.out.println("Started...");
 
         String etrOutDirOnDay = etrOutDir + "/" + date + "/" + contrAgent;
         String etrInDirOnDay = etrInDir + "/" + date + "/" + contrAgent;
 
         Ca2Kase app = new Ca2Kase();
 
-        List<DepoFile> depoFileList = app.getFilesList(etrInDirOnDay);
+        List<DepoFile> depoFileList = app.getFilesList(etrInDirOnDay, date);
 
         FileWriter writer = new FileWriter(exportFile);
 
@@ -140,6 +141,6 @@ public class Ca2Kase {
 
         writer.close();
 
-//        System.out.println("Stopped");
+        System.out.println("Stopped");
     }
 }

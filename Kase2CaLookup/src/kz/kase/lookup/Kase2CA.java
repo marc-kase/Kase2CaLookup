@@ -28,7 +28,7 @@ public class Kase2CA {
     public static final String CA_LOGIN = "ca.login";
     public static final String DATE = "date";
 
-    public List<DepoFile> getDepoFiles(String directory) throws IOException {
+    public List<DepoFile> getDepoFiles(String directory, String daycut) throws IOException {
         String filesList = LinuxCommand
                 .run("ls -l --time-style=+'%Y-%m-%d %H:%M:%S' " + directory
                         + "| grep -i '' | rev | cut -d ' ' -f1-3 | rev", "\n");
@@ -40,7 +40,8 @@ public class Kase2CA {
         String[] fline;
         for (int i = 1; i < fs.length; i++) {
             fline = fs[i].split(" ");
-            depoFiles.add(new DepoFile(fline[2], fline[0], fline[1]));
+            if (daycut.equals(fline[0])) depoFiles.add(new DepoFile(fline[2], fline[0], fline[1]));
+            else System.out.println("Ignored: " + fline[2]);
         }
         return depoFiles;
     }
@@ -107,7 +108,7 @@ public class Kase2CA {
 
         Kase2CA app = new Kase2CA();
 
-        List<DepoFile> depoFileList = app.getDepoFiles(depoDir);
+        List<DepoFile> depoFileList = app.getDepoFiles(depoDir, date);
 
         FileWriter writer = new FileWriter(exportFile);
 

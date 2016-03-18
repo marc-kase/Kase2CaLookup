@@ -15,7 +15,6 @@ public class LinuxCommand {
         BufferedReader input = new BufferedReader(new InputStreamReader(pb.getInputStream()));
         while ((line = input.readLine()) != null) {
             result.append(line).append(lineDelimiter);
-            System.out.println(line);
         }
         input.close();
         return result.toString();
