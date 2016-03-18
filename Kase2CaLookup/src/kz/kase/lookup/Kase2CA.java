@@ -112,6 +112,8 @@ public class Kase2CA {
 
         FileWriter writer = new FileWriter(exportFile);
 
+        System.out.println("Files total: " + depoFileList.size());
+        writer.write("Files total: " + depoFileList.size() + "\n\n");
         for (DepoFile file : depoFileList) {
             file.setRefNum(app.getFileContent(depoDir + "/" + file.getFilename(), REF_KASE_REQUEST).replace(REF_KASE_REQUEST, ""));
             file.setDealId(app.getFileContent(depoDir + "/" + file.getFilename(), DEAL_NUMBER).replace(DEAL_NUMBER, ""));
