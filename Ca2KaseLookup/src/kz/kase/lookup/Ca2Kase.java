@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class Kase2CA {
-    public static final String REF_KASE_REQUEST = ":20:";
-    public static final String REF_SDEPO_RESP = ":21:";
+public class Ca2Kase {
+    public static final String REF_SWIFT_REQUEST = ":20:";
+    public static final String REF_SWIFT_RESP = ":21:";
     public static final String DEAL_NUMBER = ":35E:";
 
-    public static final String PROPERTIES = "from-kase.properties";
-    public static final String DEPO_DIR = "depo.dir";
+    public static final String PROPERTIES = "to-kase.properties";
+    public static final String DEPO_OUT_DIR = "depo.out.dir";
+    public static final String DEPO_IN_DIR = "depo.in.dir";
     public static final String CONVERTER_LOG = "converter.log";
     public static final String ETRANS_INBOX = "etrans.inbox";
     public static final String ETRANS_OUTBOX = "etrans.outbox";
@@ -28,7 +29,7 @@ public class Kase2CA {
     public static final String CA_LOGIN = "ca.login";
     public static final String DATE = "date";
 
-    public List<DepoFile> getDepoFiles(String directory) throws IOException {
+    public List<DepoFile> getFilesList(String directory) throws IOException {
         String filesList = LinuxCommand
                 .run("ls -l --time-style=+'%Y-%m-%d %H:%M:%S' " + directory
                         + "| grep -i '' | rev | cut -d ' ' -f1-3 | rev", "\n");
@@ -92,7 +93,8 @@ public class Kase2CA {
         final String contrAgent = "SDEPO001";
         final String date = "2016-03-17";*/
 
-        final String depoDir = props.getProperty(DEPO_DIR);
+        final String depoOutDir = props.getProperty(DEPO_OUT_DIR);
+        final String depoInDir = props.getProperty(DEPO_IN_DIR);
         final String converterFile = props.getProperty(CONVERTER_LOG);
         final String etrOutDir = props.getProperty(ETRANS_OUTBOX);
         final String etrInDir = props.getProperty(ETRANS_INBOX);
@@ -105,18 +107,18 @@ public class Kase2CA {
         String etrOutDirOnDay = etrOutDir + "/" + date + "/" + contrAgent;
         String etrInDirOnDay = etrInDir + "/" + date + "/" + contrAgent;
 
-        Kase2CA app = new Kase2CA();
+        Ca2Kase app = new Ca2Kase();
 
-        List<DepoFile> depoFileList = app.getDepoFiles(depoDir);
+        List<DepoFile> depoFileList = app.getFilesList(etrInDirOnDay);
 
         FileWriter writer = new FileWriter(exportFile);
 
         for (DepoFile file : depoFileList) {
-            file.setRefNum(app.getFileContent(depoDir + "/" + file.getFilename(), REF_KASE_REQUEST).replace(REF_KASE_REQUEST, ""));
-            file.setDealId(app.getFileContent(depoDir + "/" + file.getFilename(), DEAL_NUMBER).replace(DEAL_NUMBER, ""));
+            file.setRefNum(app.getFileContent(etrInDirOnDay + "/" + file.getFilename(), REF_SWIFT_REQUEST).replace(REF_SWIFT_REQUEST, "").replace("G",""));
+            file.setDealId(app.getFileContent(etrInDirOnDay + "/" + file.getFilename(), DEAL_NUMBER).replace(DEAL_NUMBER, ""));
 //            file.setRefNum(app.getFileContent(depoDir + "/" + file.getFilename(), ":REF:"));
             file.setIsConverted(app.checkConverterData(converterFile, file));
-            String sentTimeFilesystem = app.getFileModificationTime(etrOutDirOnDay, file.getFilename(), "-f8,9");
+            String sentTimeFilesystem = app.getFileModificationTime(depoInDir, file.getFilename(), "-f8,9");
             if (sentTimeFilesystem.isEmpty()) {
                 file.setIsSentAccordingToEtrDir(false);
             } else {
@@ -124,11 +126,11 @@ public class Kase2CA {
                 file.setSentTimeAccordingToEtrDir(sentTimeFilesystem);
             }
 
-            String respFile = app.getFilenameByPattern(etrInDirOnDay + "/*.*", REF_SDEPO_RESP + file.getRefNum(), "-w");
+            String respFile = app.getFilenameByPattern(depoOutDir + "/*.*", REF_SWIFT_RESP + file.getRefNum(), "-w");
             if (!respFile.isEmpty()) {
                 Path f = Paths.get(respFile);
                 file.setResponseFile(f.getFileName().toString());
-                file.setResponseTime(app.getFileModificationTime(etrInDirOnDay, f.getFileName().toString(), "-f6,7"));
+                file.setResponseTime(app.getFileModificationTime(depoOutDir, f.getFileName().toString(), "-f7,8"));
             }
 
 //            System.out.println(file.toString());

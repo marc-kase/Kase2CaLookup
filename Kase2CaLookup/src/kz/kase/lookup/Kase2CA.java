@@ -20,7 +20,7 @@ public class Kase2CA {
     public static final String DEAL_NUMBER = ":35E:";
 
     public static final String PROPERTIES = "from-kase.properties";
-    public static final String DEPO_DIR = "depo.dir";
+    public static final String DEPO_OUT_DIR = "depo.out.dir";
     public static final String CONVERTER_LOG = "converter.log";
     public static final String ETRANS_INBOX = "etrans.inbox";
     public static final String ETRANS_OUTBOX = "etrans.outbox";
@@ -92,7 +92,7 @@ public class Kase2CA {
         final String contrAgent = "SDEPO001";
         final String date = "2016-03-17";*/
 
-        final String depoDir = props.getProperty(DEPO_DIR);
+        final String depoDir = props.getProperty(DEPO_OUT_DIR);
         final String converterFile = props.getProperty(CONVERTER_LOG);
         final String etrOutDir = props.getProperty(ETRANS_OUTBOX);
         final String etrInDir = props.getProperty(ETRANS_INBOX);

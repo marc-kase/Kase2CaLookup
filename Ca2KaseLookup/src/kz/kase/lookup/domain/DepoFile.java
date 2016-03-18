@@ -118,11 +118,11 @@ public class DepoFile {
         sb.append("Deal ID:   ").append(dealId).append("\n");
         sb.append("RefNum:    ").append(refNum).append("\n");
 //        sb.append("Code:      ").append(codeTo).append("\n");
-        sb.append("Converted:             ").append(isConverted).append("\n");
-        sb.append("Found in 'sent' Dir:   ").append(isSentAccordingToEtrDir).append("\n");
-        sb.append("Created in 'sent' Dir: ").append(sentTimeAccordingToEtrDir).append("\n");
-        sb.append("Response file:         ").append(responseFile).append("\n");
-        sb.append("Response Time:         ").append(responseTime).append("\n");
+        sb.append("Converted:                ").append(isConverted).append("\n");
+        sb.append("Found   in 'success' Dir: ").append(isSentAccordingToEtrDir).append("\n");
+        sb.append("Created in 'success' Dir: ").append(sentTimeAccordingToEtrDir).append("\n");
+        sb.append("Response file:            ").append(responseFile).append("\n");
+        sb.append("Response Time:            ").append(responseTime).append("\n");
         return sb.toString();
     }
 }
