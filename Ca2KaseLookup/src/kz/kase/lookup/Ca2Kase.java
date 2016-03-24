@@ -121,7 +121,7 @@ public class Ca2Kase {
             file.setDealId(app.getFileContent(etrInDirOnDay + "/" + file.getFilename(), DEAL_NUMBER).replace(DEAL_NUMBER, ""));
 //            file.setRefNum(app.getFileContent(depoDir + "/" + file.getFilename(), ":REF:"));
             file.setIsConverted(app.checkConverterData(converterFile, file));
-            String sentTimeFilesystem = app.getFileModificationTime(depoInDir, file.getFilename(), "-f8,9");
+            String sentTimeFilesystem = app.getFileModificationTime(depoInDir, file.getFilename(), "-f6,7");
             if (sentTimeFilesystem.isEmpty()) {
                 file.setIsSentAccordingToEtrDir(false);
             } else {
